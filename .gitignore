@@ -10,5 +10,4 @@ jspm_packages
 
 .env
 .env.development
-ormconfig.json
 dist
