@@ -1,7 +1,8 @@
+import DataLoader from 'dataloader';
 import { Column, Entity, getRepository, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users', {
-  synchronize: false
+  synchronize: true
 })
 export default class User {
   @PrimaryGeneratedColumn('uuid')
@@ -11,7 +12,9 @@ export default class User {
   username!: string;
 }
 
-export const createUserLoader = () => {
-  const repo = getRepository(User);
-  return repo;
-};
+export const createUserLoader = () =>
+  new DataLoader<string, User>(ids => {
+    const repo = getRepository(User);
+    const users = repo.findByIds(ids);
+    return users;
+  });
