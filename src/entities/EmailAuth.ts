@@ -10,18 +10,20 @@ import {
 } from 'typeorm';
 // tslint:disable-next-line: ordered-imports
 
-@Entity()
+@Entity('email_auth', {
+  synchronize: true
+})
 class EmailAuth extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id!: number;
 
   @Column({ type: 'text' })
   code!: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   email!: string;
 
   @Column({ default: false })
-  beforeLogged!: boolean;
+  logged!: boolean;
 
   @CreateDateColumn() createdAt: string;
 

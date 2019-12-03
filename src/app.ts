@@ -4,12 +4,14 @@ import bodyparser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import { createConnection } from 'typeorm';
 import allDataloader, { Loaders } from './entities/allDataloader';
-import { resolvers, typeDefs } from './graphql/User'; // have to do make schema!
+import schema from './graphql/schema';
 import routes from './routes';
+import { consumeUser } from './utilities/token';
 
 const app = new Koa();
 app.use(bodyparser());
 app.use(routes.routes()).use(routes.allowedMethods());
+app.use(consumeUser);
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());
 }
@@ -22,8 +24,6 @@ export type ApolloContext = {
 
 const context = async ({ ctx }: { ctx: Context }) => {
   try {
-    // await consumeUser(ctx);
-    // console.log(ctx.state);
     return {
       id: 'user01',
       ip: ctx.request.ip,
@@ -35,8 +35,7 @@ const context = async ({ ctx }: { ctx: Context }) => {
 };
 
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   context
 });
 apolloServer.applyMiddleware({ app });

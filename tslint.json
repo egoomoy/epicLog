@@ -14,7 +14,8 @@
         "member-access": false,
         "ordered-imports": true,
         "interface-name": false,
-        "strict-null-checks": false
+        "strict-null-checks": false,
+        "no-else-after-return": false
     },
     "rulesDirectory": []
 }

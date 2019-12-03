@@ -1,9 +1,9 @@
 import { gql } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
-import User from '../entities/User';
+import { User } from '../entities/User';
 
 export const typeDefs = gql`
-  type Query {
+  extend type Query {
     user(username: String!): String
   }
 `;
