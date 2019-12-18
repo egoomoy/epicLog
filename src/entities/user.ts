@@ -46,29 +46,14 @@ export class User extends BaseEntity {
   async createUserToken() {
     // refresh token is valid for 30days
     const refreshToken = await createToken(
-      {
-        user_id: this.id
-      },
-      {
-        subject: 'refresh_token',
-        expiresIn: '30d'
-      }
+      { user_id: this.id },
+      { subject: 'refresh_token', expiresIn: '30d' }
     );
-
     const accessToken = await createToken(
-      {
-        user_id: this.id
-      },
-      {
-        subject: 'access_token',
-        expiresIn: '1h'
-      }
+      { user_id: this.id },
+      { subject: 'access_token', expiresIn: '1h' }
     );
-
-    return {
-      refreshToken,
-      accessToken
-    };
+    return { refreshToken, accessToken };
   }
 
   async refreshUserToken(tokenId: string, refreshTokenExp: number, originalRefreshToken: string) {
@@ -80,26 +65,14 @@ export class User extends BaseEntity {
     if (diff < 1000 * 60 * 60 * 24 * 15) {
       console.log('refreshing refreshToken');
       refreshToken = await createToken(
-        {
-          user_id: this.id,
-          token_id: tokenId
-        },
-        {
-          subject: 'refresh_token',
-          expiresIn: '30d'
-        }
+        { user_id: this.id, token_id: tokenId },
+        { subject: 'refresh_token', expiresIn: '30d' }
       );
     }
     const accessToken = await createToken(
-      {
-        user_id: this.id
-      },
-      {
-        subject: 'access_token',
-        expiresIn: '1h'
-      }
+      { user_id: this.id },
+      { subject: 'access_token', expiresIn: '1h' }
     );
-
     return { refreshToken, accessToken };
   }
 }
