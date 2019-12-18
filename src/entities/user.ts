@@ -1,6 +1,17 @@
 import DataLoader from 'dataloader';
-import { BaseEntity, Column, Entity, getRepository, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  getRepository,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  BeforeUpdate
+} from 'typeorm';
 import { createToken } from '../utilities/token';
+import bcrypt from 'bcrypt';
+
+const BCRYPT_ROUNDS = 10;
 
 @Entity('users', {
   synchronize: true
@@ -11,6 +22,26 @@ export class User extends BaseEntity {
 
   @Column({ unique: true, length: 255, nullable: true, type: 'varchar' })
   email!: string | null;
+
+  @Column({ length: 255, nullable: true })
+  password!: string;
+
+  public comparePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async savePassword(): Promise<void> {
+    if (this.password) {
+      const hashedPassword = await this.hashPassword(this.password);
+      this.password = hashedPassword;
+    }
+  }
+
+  private hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, BCRYPT_ROUNDS);
+  }
 
   async createUserToken() {
     // refresh token is valid for 30days

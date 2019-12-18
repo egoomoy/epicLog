@@ -6,12 +6,10 @@ import { createConnection } from 'typeorm';
 import allDataloader, { Loaders } from './entities/allDataloader';
 import schema from './graphql/schema';
 import routes from './routes';
-import { consumeUser } from './utilities/token';
 
 const app = new Koa();
 app.use(bodyparser());
 app.use(routes.routes()).use(routes.allowedMethods());
-app.use(consumeUser);
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());
 }

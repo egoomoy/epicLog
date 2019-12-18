@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import EmailAuth from '../entities/emailAuth';
 import { User } from '../entities/User';
 import { sendWelcomeEmail } from '../utilities/sendEmail';
-import { ApolloContext } from './../app';
+import { ApolloContext } from '../app';
 
 export const typeDefs = gql`
   extend type Mutation {

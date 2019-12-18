@@ -6,6 +6,13 @@ export const typeDefs = gql`
   extend type Query {
     user(username: String!): String
   }
+  extend type Mutation {
+    emailSignUp(email: String!, password: String!): emailSignUpResponse!
+  }
+  type emailSignUpResponse {
+    ok: Boolean!
+    error: String
+  }
 `;
 
 export const resolvers = {
@@ -22,6 +29,32 @@ export const resolvers = {
         if (user) return user.id;
       } catch (e) {
         console.log(e);
+      }
+    }
+  },
+  Mutation: {
+    emailSignUp: async (_parent: any, args: any, _context: any, _info: any) => {
+      const { email, password } = args;
+      const userRepo = getRepository(User);
+      try {
+        const existUser = await userRepo.findOne({ email });
+        if (existUser) {
+          return {
+            ok: false,
+            error: 'instead log in'
+          };
+        } else {
+          await User.create({ email, password }).save();
+          return {
+            ok: true,
+            error: null
+          };
+        }
+      } catch (error) {
+        return {
+          ok: false,
+          error: error.message
+        };
       }
     }
   }
