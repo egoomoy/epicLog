@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 // tslint:disable-next-line: ordered-imports
 
-@Entity('email_auth', {
+@Entity('EMAILAUTH_TB', {
   synchronize: true
 })
 class EmailAuth extends BaseEntity {

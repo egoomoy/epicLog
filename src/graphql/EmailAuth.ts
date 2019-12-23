@@ -1,9 +1,9 @@
 import { gql, IResolvers } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
+import { ApolloContext } from '../app';
 import EmailAuth from '../entities/emailAuth';
 import { User } from '../entities/User';
 import { sendWelcomeEmail } from '../utilities/sendEmail';
-import { ApolloContext } from '../app';
 
 export const typeDefs = gql`
   extend type Mutation {

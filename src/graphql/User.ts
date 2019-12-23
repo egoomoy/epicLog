@@ -7,9 +7,9 @@ export const typeDefs = gql`
     user(username: String!): String
   }
   extend type Mutation {
-    emailSignUp(email: String!, password: String!): emailSignUpResponse!
+    emailSignUpUser(email: String!, password: String!): emailSignUpUserResponse!
   }
-  type emailSignUpResponse {
+  type emailSignUpUserResponse {
     ok: Boolean!
     error: String
   }
@@ -33,7 +33,7 @@ export const resolvers = {
     }
   },
   Mutation: {
-    emailSignUp: async (_parent: any, args: any, _context: any, _info: any) => {
+    emailSignUpUser: async (_parent: any, args: any, _context: any, _info: any) => {
       const { email, password } = args;
       const userRepo = getRepository(User);
       try {

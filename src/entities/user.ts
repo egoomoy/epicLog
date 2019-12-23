@@ -13,7 +13,7 @@ import bcrypt from 'bcrypt';
 
 const BCRYPT_ROUNDS = 10;
 
-@Entity('users', {
+@Entity('USER_TB', {
   synchronize: true
 })
 export class User extends BaseEntity {
