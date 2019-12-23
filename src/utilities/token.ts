@@ -79,6 +79,7 @@ export const refresh = async (ctx: Context, refreshToken: any) => {
   try {
     const decoded = await decodeToken<REFRESHTOKENTYPE>(refreshToken);
     const user = await getRepository(User).findOne(decoded.user_id);
+
     if (!user) {
       const error = new Error('InvalidUserError');
       throw error;
@@ -95,7 +96,6 @@ export const consumeUser: Middleware = async (ctx: Context, next) => {
   const refreshToken: string | undefined = ctx.cookies.get('refresh_token');
 
   const { epicAuth } = ctx.request.headers;
-
   if (!accessToken && epicAuth) {
     accessToken = epicAuth.split(' ')[1];
   }
@@ -104,6 +104,7 @@ export const consumeUser: Middleware = async (ctx: Context, next) => {
     if (!accessToken) {
       throw new Error('NoAccessToken');
     }
+
     const accessTokenData = await decodeToken<ACCESSTOKENTYPE>(accessToken);
     ctx.state.user_id = accessTokenData.user_id;
     // refresh token when life < 30mins
@@ -111,6 +112,7 @@ export const consumeUser: Middleware = async (ctx: Context, next) => {
     if (diff < 1000 * 60 * 30 && refreshToken) {
       await refresh(ctx, refreshToken);
     }
+    throw new Error('NoAccessToken');
   } catch (e) {
     // invalid token! try token refresh...
     if (!refreshToken) return next();

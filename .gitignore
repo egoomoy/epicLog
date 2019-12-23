@@ -9,6 +9,6 @@ jspm_packages
 .webpack
 
 .env
-.env.development
 dist
 serverless.yml
+.env.development

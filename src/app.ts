@@ -6,16 +6,18 @@ import { createConnection } from 'typeorm';
 import allDataloader, { Loaders } from './entities/allDataloader';
 import schema from './graphql/schema';
 import routes from './routes';
+import { consumeUser } from './utilities/token';
 
 const app = new Koa();
 app.use(bodyparser());
+app.use(consumeUser);
 app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());
 }
 
 export type ApolloContext = {
-  id: string;
+  user_id: string;
   ip: string;
   loaders: Loaders;
 };
@@ -23,7 +25,7 @@ export type ApolloContext = {
 const context = async ({ ctx }: { ctx: Context }) => {
   try {
     return {
-      id: 'user01',
+      user_id: ctx.state.user_id,
       ip: ctx.request.ip,
       loaders: allDataloader()
     };

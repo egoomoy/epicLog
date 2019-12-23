@@ -21,6 +21,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
+    "loadsh": "^0.0.4",
     "mailgun-js": "^0.22.0",
     "pg": "^7.12.1",
     "serverless-http": "^2.3.0",
