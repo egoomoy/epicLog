@@ -1,13 +1,9 @@
 import { gql, IResolvers } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
 import { User } from '../entities/User';
-import { ApolloContext } from './../app';
+import { ApolloContext } from '../app';
 
 export const typeDefs = gql`
-  type User {
-    id: ID!
-    email: String
-  }
   extend type Query {
     user(username: String!): String
   }
@@ -21,13 +17,6 @@ export const typeDefs = gql`
 `;
 
 export const resolvers: IResolvers<any, ApolloContext> = {
-  User: {
-    email: (parent: User, _: any, context: any) => {
-      if (context.user_id !== parent.id) {
-      }
-      return parent.email;
-    }
-  },
   Query: {
     user: async (_parent: any, args: any, _context: any, _info: any) => {
       const { username } = args;

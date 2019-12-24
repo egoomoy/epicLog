@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Context, Middleware } from 'koa';
 import { getRepository } from 'typeorm';
-import { User } from '../entities/user';
+import { User } from '../entities/User';
 
 type ACCESSTOKENTYPE = {
   iat: number; // issued at

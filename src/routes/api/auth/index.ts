@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import { getRepository } from 'typeorm';
-import { User } from '../../../entities/user';
+import { User } from '../../../entities/User';
 import { setTokenCookie } from '../../../utilities/token';
 
 const auth = new Router();

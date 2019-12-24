@@ -1,6 +1,6 @@
 import { gql, makeExecutableSchema } from 'apollo-server-koa';
-import * as emailAuth from './emailAuth';
-import * as user from './user';
+import * as emailAuth from './EmailAuth';
+import * as user from './User';
 
 const typeDef = gql`
   type Query {

@@ -1,7 +1,7 @@
 import { gql, IResolvers } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
 import { ApolloContext } from '../app';
-import EmailAuth from '../entities/emailAuth';
+import EmailAuth from '../entities/EmailAuth';
 import { User } from '../entities/User';
 import { sendWelcomeEmail } from '../utilities/sendEmail';
 
