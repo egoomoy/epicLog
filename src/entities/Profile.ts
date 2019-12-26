@@ -20,8 +20,8 @@ export class Profile extends BaseEntity {
   @Column({ length: 255 })
   name!: string;
 
-  @Column({ length: 255 })
-  shortBio!: string;
+  @Column({ length: 255, nullable: true })
+  shortBio: string;
 
   @Column('timestamptz')
   @CreateDateColumn()
