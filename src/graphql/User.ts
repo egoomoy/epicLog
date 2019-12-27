@@ -1,19 +1,19 @@
 import { gql, IResolvers } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
-import { User } from '../entities/User';
 import { ApolloContext } from '../app';
 import { Profile } from '../entities/Profile';
+import { User } from '../entities/User';
 
 export const typeDefs = gql`
   extend type Query {
-    user(username: String!): String
+    me: String
   }
   extend type Mutation {
     emailSignUpUser(
       email: String!
       password: String!
-      shortBio: String
       name: String!
+      shortBio: String
     ): emailSignUpUserResponse!
   }
   type emailSignUpUserResponse {
@@ -24,13 +24,12 @@ export const typeDefs = gql`
 
 export const resolvers: IResolvers<any, ApolloContext> = {
   Query: {
-    user: async (_parent: any, args: any, _context: any, _info: any) => {
-      const { username } = args;
+    me: async (_parent: any, _args: any, _context: ApolloContext, _info: any) => {
       const repo = getRepository(User);
       try {
         const user = await repo.findOne({
           where: {
-            username
+            id: _context.user_id
           }
         });
         if (user) return user.id;
@@ -41,7 +40,7 @@ export const resolvers: IResolvers<any, ApolloContext> = {
   },
   Mutation: {
     emailSignUpUser: async (_parent: any, args: any, _context: any, _info: any) => {
-      const { email, password, shortBio, name } = args;
+      const { email, password, name, shortBio } = args;
 
       const userRepo = getRepository(User);
       const profileRepo = getRepository(Profile);
@@ -53,15 +52,21 @@ export const resolvers: IResolvers<any, ApolloContext> = {
             error: 'instead log in'
           };
         } else {
-          const user = await userRepo.create({ email, password }).save();
-          await profileRepo
-            .create({
-              fk_user_id: user.id,
-              shortBio,
-              name
-            })
-            .save();
-
+          try {
+            const user = await userRepo.create({ email, password }).save();
+            await profileRepo
+              .create({
+                shortBio,
+                name,
+                fk_user_id: user.id
+              })
+              .save();
+          } catch (error) {
+            return {
+              ok: false,
+              error: error.message
+            };
+          }
           return {
             ok: true,
             error: null

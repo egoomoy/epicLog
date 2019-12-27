@@ -64,7 +64,7 @@ export const setTokenCookie = (
 ) => {
   ctx.cookies.set('access_token', tokens.accessToken, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60, // 1H
+    maxAge: 2000 * 60 * 60, // 2H
     domain: process.env.NODE_ENV === 'development' ? undefined : '.epiclo.io'
   });
 
@@ -79,7 +79,6 @@ export const refresh = async (ctx: Context, refreshToken: any) => {
   try {
     const decoded = await decodeToken<REFRESHTOKENTYPE>(refreshToken);
     const user = await getRepository(User).findOne(decoded.user_id);
-
     if (!user) {
       const error = new Error('InvalidUserError');
       throw error;
@@ -95,24 +94,25 @@ export const consumeUser: Middleware = async (ctx: Context, next) => {
   let accessToken: string | undefined = ctx.cookies.get('access_token');
   const refreshToken: string | undefined = ctx.cookies.get('refresh_token');
 
-  const { epicAuth } = ctx.request.headers;
-  if (!accessToken && epicAuth) {
-    accessToken = epicAuth.split(' ')[1];
+  const { epicauth } = ctx.request.headers;
+  if (!accessToken && epicauth) {
+    accessToken = epicauth;
   }
 
   try {
     if (!accessToken) {
+      console.log('NoAccessToken, no auth');
       throw new Error('NoAccessToken');
     }
-
     const accessTokenData = await decodeToken<ACCESSTOKENTYPE>(accessToken);
     ctx.state.user_id = accessTokenData.user_id;
+
     // refresh token when life < 30mins
     const diff = accessTokenData.exp * 1000 - new Date().getTime();
+
     if (diff < 1000 * 60 * 30 && refreshToken) {
       await refresh(ctx, refreshToken);
     }
-    throw new Error('NoAccessToken');
   } catch (e) {
     // invalid token! try token refresh...
     if (!refreshToken) return next();

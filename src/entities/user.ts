@@ -71,7 +71,7 @@ export class User extends BaseEntity {
     );
     const accessToken = await createToken(
       { user_id: this.id },
-      { subject: 'access_token', expiresIn: '5s' }
+      { subject: 'access_token', expiresIn: '2h' }
     );
     return { refreshToken, accessToken };
   }
@@ -90,7 +90,7 @@ export class User extends BaseEntity {
     }
     const accessToken = await createToken(
       { user_id: this.id },
-      { subject: 'access_token', expiresIn: '5s' }
+      { subject: 'access_token', expiresIn: '2h' }
     );
     return { refreshToken, accessToken };
   }
