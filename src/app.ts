@@ -1,29 +1,36 @@
+import cors from '@koa/cors';
 import { ApolloServer } from 'apollo-server-koa';
 import Koa, { Context } from 'koa';
 import bodyparser from 'koa-bodyparser';
 import logger from 'koa-logger';
-import { resolvers, typeDefs } from './graphql/hello'; // have to do make schema!
-import routes from './routes';
+import { createConnection } from 'typeorm';
+import schema from './graphql/schema';
+import { tokenCheckMiddleware } from './lib/token';
 
 const app = new Koa();
+
 app.use(bodyparser());
-app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());
 }
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+  })
+);
+app.use(tokenCheckMiddleware);
 
 export type ApolloContext = {
   id: string;
-  ip: string;
+  ctx: Context;
 };
 
 const context = async ({ ctx }: { ctx: Context }) => {
   try {
-    // await consumeUser(ctx);
-    // console.log(ctx.state);
     return {
-      id: 'user01',
-      ip: ctx.request.ip
+      ctx,
+      id: 'user01'
     };
   } catch (e) {
     return {};
@@ -31,11 +38,24 @@ const context = async ({ ctx }: { ctx: Context }) => {
 };
 
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   context
 });
-apolloServer.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app, cors: false });
 console.log(`🚀 apolloServer ready at ${apolloServer.graphqlPath}`);
+
+/**
+ * initial tasks except Koa middlewares
+ */
+async function initialize() {
+  try {
+    await createConnection();
+    console.log('Postgres RDBMS connection is established');
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+initialize();
 
 export default app;

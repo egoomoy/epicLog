@@ -1,30 +1,30 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @type/typeorm --dev
+  /usr/local/Cellar/node/12.6.0/bin/node /usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js add @koa/cors2
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Java\jdk-10.0.2\bin;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\nodejs\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\koo\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\koo\AppData\Local\Programs\Python\Python36\;C:\Users\koo\AppData\Local\atom\bin;C:\Users\koo\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Program Files\Microsoft VS Code\bin;C:\Users\koo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\koo\AppData\Roaming\npm
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
-  1.6.0
+  1.17.3
 
 Node version: 
-  12.10.0
+  12.6.0
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@type%2ftypeorm: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65327:18)
-      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:133155:22)
-      at Request.emit (events.js:209:13)
-      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:134138:10)
-      at Request.emit (events.js:209:13)
-      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:134058:12)
-      at Object.onceWrapper (events.js:298:28)
-      at IncomingMessage.emit (events.js:214:15)
-      at endReadableNT (_stream_readable.js:1178:12)
-      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+  Error: https://registry.yarnpkg.com/@koa%2fcors2: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:66830:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:140464:22)
+      at Request.emit (events.js:203:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141436:10)
+      at Request.emit (events.js:203:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141358:12)
+      at Object.onceWrapper (events.js:291:20)
+      at IncomingMessage.emit (events.js:208:15)
+      at endReadableNT (_stream_readable.js:1154:12)
+      at processTicksAndRejections (internal/process/task_queues.js:77:11)
 
 npm manifest: 
   {
@@ -40,20 +40,26 @@ npm manifest:
     },
     "dependencies": {
       "apollo-server-koa": "^2.9.9",
-      "cross-env": "^6.0.3",
+      "bcrypt": "^4.0.1",
+      "cross-env": "^7.0.2",
+      "dataloader": "^1.4.0",
       "dotenv": "^8.2.0",
       "graphql": "^14.5.8",
+      "jsonwebtoken": "^8.5.1",
       "koa": "^2.11.0",
       "koa-bodyparser": "^4.2.1",
       "koa-logger": "^3.2.1",
       "koa-router": "^7.4.0",
+      "pg": "^7.12.1",
       "serverless-http": "^2.3.0",
       "source-map-support": "^0.5.10",
       "typeorm": "^0.2.20"
     },
     "devDependencies": {
       "@types/aws-lambda": "^8.10.17",
+      "@types/bcrypt": "^3.0.0",
       "@types/graphql": "^14.5.0",
+      "@types/jsonwebtoken": "^8.3.8",
       "@types/koa": "^2.0.52",
       "@types/koa-bodyparser": "^4.3.0",
       "@types/koa-logger": "^3.1.1",
@@ -457,6 +463,11 @@ Lockfile:
     version "8.10.35"
     resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.35.tgz#f3e1f62fa865858728e706dcc8415dfd6d12894c"
   
+  "@types/bcrypt@^3.0.0":
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-3.0.0.tgz#851489a9065a067cb7f3c9cbe4ce9bed8bba0876"
+    integrity sha512-nohgNyv+1ViVcubKBh0+XiNJ3dO8nYu///9aJ4cgSqv70gBL+94SNy/iC2NLzKPT2Zt/QavrOkBVbZRLZmw6NQ==
+  
   "@types/body-parser@*":
     version "1.17.1"
     resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.1.tgz#18fcf61768fb5c30ccc508c21d6fd2e8b3bf7897"
@@ -528,6 +539,13 @@ Lockfile:
   "@types/http-assert@*":
     version "1.5.1"
     resolved "https://registry.yarnpkg.com/@types/http-assert/-/http-assert-1.5.1.tgz#d775e93630c2469c2f980fc27e3143240335db3b"
+  
+  "@types/jsonwebtoken@^8.3.8":
+    version "8.3.8"
+    resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.3.8.tgz#b27c9156dde2049ae03e56528a53ef5a8294aa82"
+    integrity sha512-g2ke5+AR/RKYpQxd+HJ2yisLHGuOV0uourOcPtKlcT5Zqv4wFg9vKhFpXEztN4H/6Y6RSUKioz/2PTFPP30CTA==
+    dependencies:
+      "@types/node" "*"
   
   "@types/keygrip@*":
     version "1.0.1"
@@ -1141,6 +1159,14 @@ Lockfile:
       mixin-deep "^1.2.0"
       pascalcase "^0.1.1"
   
+  bcrypt@^4.0.1:
+    version "4.0.1"
+    resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-4.0.1.tgz#06e21e749a061020e4ff1283c1faa93187ac57fe"
+    integrity sha512-hSIZHkUxIDS5zA2o00Kf2O5RfVbQ888n54xQoF/eIaquU4uaLxK8vhhBdktd0B3n2MjkcAWzv4mnhogykBKOUQ==
+    dependencies:
+      node-addon-api "^2.0.0"
+      node-pre-gyp "0.14.0"
+  
   big.js@^5.2.2:
     version "5.2.2"
     resolved "https://registry.yarnpkg.com/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
@@ -1298,6 +1324,11 @@ Lockfile:
   buffer-from@^1.0.0:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
+  
+  buffer-writer@2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/buffer-writer/-/buffer-writer-2.0.0.tgz#ce7eb81a38f7829db09c873f2fbb792c0c98ec04"
+    integrity sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==
   
   buffer-xor@^1.0.3:
     version "1.0.3"
@@ -1737,11 +1768,12 @@ Lockfile:
       safe-buffer "^5.0.1"
       sha.js "^2.4.8"
   
-  cross-env@^6.0.3:
-    version "6.0.3"
-    resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-6.0.3.tgz#4256b71e49b3a40637a0ce70768a6ef5c72ae941"
+  cross-env@^7.0.2:
+    version "7.0.2"
+    resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.2.tgz#bd5ed31339a93a3418ac4f3ca9ca3403082ae5f9"
+    integrity sha512-KZP/bMEOJEDCkDQAyRhu3RL2ZO/SUVrxQVI0G3YEQ+OLbRA3c6zgixe8Mq8a/z7+HKlNEjo8oiLUs8iRijY2Rw==
     dependencies:
-      cross-spawn "^7.0.0"
+      cross-spawn "^7.0.1"
   
   cross-spawn@^5.0.1:
     version "5.1.0"
@@ -1751,9 +1783,10 @@ Lockfile:
       shebang-command "^1.2.0"
       which "^1.2.9"
   
-  cross-spawn@^7.0.0:
+  cross-spawn@^7.0.1:
     version "7.0.1"
     resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.1.tgz#0ab56286e0f7c24e153d04cc2aa027e43a9a5d14"
+    integrity sha512-u7v4o84SwFpD32Z8IIcPZ6z1/ie24O6RU3RbtL5Y316l3KuHVPx9ItBgWQ6VlfAFnRnTtMUrsQ9MUUTuEZjogg==
     dependencies:
       path-key "^3.1.0"
       shebang-command "^2.0.0"
@@ -1792,6 +1825,11 @@ Lockfile:
   cyclist@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
+  
+  dataloader@^1.4.0:
+    version "1.4.0"
+    resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-1.4.0.tgz#bca11d867f5d3f1b9ed9f737bd15970c65dff5c8"
+    integrity sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==
   
   dateformat@~1.0.4-1.2.3:
     version "1.0.12"
@@ -2965,6 +3003,7 @@ Lockfile:
   jsonwebtoken@^8.5.1:
     version "8.5.1"
     resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
+    integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
     dependencies:
       jws "^3.2.2"
       lodash.includes "^4.3.0"
@@ -3474,6 +3513,11 @@ Lockfile:
     version "2.6.1"
     resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   
+  node-addon-api@^2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.0.tgz#f9afb8d777a91525244b01775ea0ddbe1125483b"
+    integrity sha512-ASCL5U13as7HhOExbT6OlWJJUV/lLzL2voOSP1UVehpRD8FbSrSDjfScK/KwAvVTI5AS6r4VwbOMlIqtvRidnA==
+  
   node-fetch@^2.1.2, node-fetch@^2.2.0:
     version "2.6.0"
     resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
@@ -3515,6 +3559,22 @@ Lockfile:
       semver "^5.5.0"
       shellwords "^0.1.1"
       which "^1.3.0"
+  
+  node-pre-gyp@0.14.0:
+    version "0.14.0"
+    resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.14.0.tgz#9a0596533b877289bcad4e143982ca3d904ddc83"
+    integrity sha512-+CvDC7ZttU/sSt9rFjix/P05iS43qHCOOGzcr3Ry99bXG7VX953+vFyEuph/tfqoYu8dttBkE86JSKBO2OzcxA==
+    dependencies:
+      detect-libc "^1.0.2"
+      mkdirp "^0.5.1"
+      needle "^2.2.1"
+      nopt "^4.0.1"
+      npm-packlist "^1.1.6"
+      npmlog "^4.0.2"
+      rc "^1.2.7"
+      rimraf "^2.6.1"
+      semver "^5.3.0"
+      tar "^4.4.2"
   
   node-pre-gyp@^0.12.0:
     version "0.12.0"
@@ -3745,6 +3805,11 @@ Lockfile:
       registry-url "^5.0.0"
       semver "^6.2.0"
   
+  packet-reader@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/packet-reader/-/packet-reader-1.0.0.tgz#9238e5480dedabacfe1fe3f2771063f164157d74"
+    integrity sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==
+  
   pako@~1.0.5:
     version "1.0.10"
     resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
@@ -3829,8 +3894,9 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
   
   path-key@^3.1.0:
-    version "3.1.0"
-    resolved "https://registry.yarnpkg.com/path-key/-/path-key-3.1.0.tgz#99a10d870a803bdd5ee6f0470e58dfcd2f9a54d3"
+    version "3.1.1"
+    resolved "https://registry.yarnpkg.com/path-key/-/path-key-3.1.1.tgz#581f6ade658cbba65a0d3380de7753295054f375"
+    integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
   
   path-parse@^1.0.6:
     version "1.0.6"
@@ -3859,6 +3925,52 @@ Lockfile:
       ripemd160 "^2.0.1"
       safe-buffer "^5.0.1"
       sha.js "^2.4.8"
+  
+  pg-connection-string@0.1.3:
+    version "0.1.3"
+    resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-0.1.3.tgz#da1847b20940e42ee1492beaf65d49d91b245df7"
+    integrity sha1-2hhHsglA5C7hSSvq9l1J2RskXfc=
+  
+  pg-int8@1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/pg-int8/-/pg-int8-1.0.1.tgz#943bd463bf5b71b4170115f80f8efc9a0c0eb78c"
+    integrity sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==
+  
+  pg-pool@^2.0.4:
+    version "2.0.7"
+    resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-2.0.7.tgz#f14ecab83507941062c313df23f6adcd9fd0ce54"
+    integrity sha512-UiJyO5B9zZpu32GSlP0tXy8J2NsJ9EFGFfz5v6PSbdz/1hBLX1rNiiy5+mAm5iJJYwfCv4A0EBcQLGWwjbpzZw==
+  
+  pg-types@^2.1.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/pg-types/-/pg-types-2.2.0.tgz#2d0250d636454f7cfa3b6ae0382fdfa8063254a3"
+    integrity sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==
+    dependencies:
+      pg-int8 "1.0.1"
+      postgres-array "~2.0.0"
+      postgres-bytea "~1.0.0"
+      postgres-date "~1.0.4"
+      postgres-interval "^1.1.0"
+  
+  pg@^7.12.1:
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/pg/-/pg-7.12.1.tgz#880636d46d2efbe0968e64e9fe0eeece8ef72a7e"
+    integrity sha512-l1UuyfEvoswYfcUe6k+JaxiN+5vkOgYcVSbSuw3FvdLqDbaoa2RJo1zfJKfPsSYPFVERd4GHvX3s2PjG1asSDA==
+    dependencies:
+      buffer-writer "2.0.0"
+      packet-reader "1.0.0"
+      pg-connection-string "0.1.3"
+      pg-pool "^2.0.4"
+      pg-types "^2.1.0"
+      pgpass "1.x"
+      semver "4.3.2"
+  
+  pgpass@1.x:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/pgpass/-/pgpass-1.0.2.tgz#2a7bb41b6065b67907e91da1b07c1847c877b306"
+    integrity sha1-Knu0G2BltnkH6R2hsHwYR8h3swY=
+    dependencies:
+      split "^1.0.0"
   
   pify@^2.0.0:
     version "2.3.0"
@@ -3891,6 +4003,28 @@ Lockfile:
   posix-character-classes@^0.1.0:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+  
+  postgres-array@~2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/postgres-array/-/postgres-array-2.0.0.tgz#48f8fce054fbc69671999329b8834b772652d82e"
+    integrity sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==
+  
+  postgres-bytea@~1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/postgres-bytea/-/postgres-bytea-1.0.0.tgz#027b533c0aa890e26d172d47cf9ccecc521acd35"
+    integrity sha1-AntTPAqokOJtFy1Hz5zOzFIazTU=
+  
+  postgres-date@~1.0.4:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/postgres-date/-/postgres-date-1.0.4.tgz#1c2728d62ef1bff49abdd35c1f86d4bdf118a728"
+    integrity sha512-bESRvKVuTrjoBluEcpv2346+6kgB7UlnqWZsnbnCccTNq/pqfj1j6oBaN5+b/NrDXepYUT/HKadqv3iS9lJuVA==
+  
+  postgres-interval@^1.1.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/postgres-interval/-/postgres-interval-1.2.0.tgz#b460c82cb1587507788819a06aa0fffdb3544695"
+    integrity sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==
+    dependencies:
+      xtend "^4.0.0"
   
   prepend-http@^1.0.1:
     version "1.0.4"
@@ -4218,6 +4352,11 @@ Lockfile:
     version "5.7.1"
     resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   
+  semver@4.3.2:
+    version "4.3.2"
+    resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.2.tgz#c7a07158a80bedd052355b770d82d6640f803be7"
+    integrity sha1-x6BxWKgL7dBSNVt3DYLWZA+AO+c=
+  
   semver@^6.2.0:
     version "6.3.0"
     resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
@@ -4301,6 +4440,7 @@ Lockfile:
   shebang-command@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-2.0.0.tgz#ccd0af4f8835fbdc265b82461aaf0c36663f34ea"
+    integrity sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==
     dependencies:
       shebang-regex "^3.0.0"
   
@@ -4311,6 +4451,7 @@ Lockfile:
   shebang-regex@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
+    integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
   
   shellwords@^0.1.1:
     version "0.1.1"
@@ -4413,6 +4554,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
     dependencies:
       extend-shallow "^3.0.0"
+  
+  split@^1.0.0:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/split/-/split-1.0.1.tgz#605bd9be303aa59fb35f9229fbea0ddec9ea07d9"
+    integrity sha512-mTyOoPbrivtXnwnIxZRFYRrPNtEFKlpB2fvjSnCQUiAA6qAZzqwna5envK4uk6OIeP17CsdF3rSBGYVBsU0Tkg==
+    dependencies:
+      through "2"
   
   sprintf-js@~1.0.2:
     version "1.0.3"
@@ -4604,7 +4752,7 @@ Lockfile:
       to-buffer "^1.1.1"
       xtend "^4.0.0"
   
-  tar@^4:
+  tar@^4, tar@^4.4.2:
     version "4.4.13"
     resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
     dependencies:
@@ -4662,6 +4810,11 @@ Lockfile:
     dependencies:
       readable-stream "~2.3.6"
       xtend "~4.0.1"
+  
+  through@2:
+    version "2.3.8"
+    resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
+    integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
   
   timed-out@^4.0.0:
     version "4.0.1"
@@ -5173,8 +5326,9 @@ Lockfile:
       isexe "^2.0.0"
   
   which@^2.0.1:
-    version "2.0.1"
-    resolved "https://registry.yarnpkg.com/which/-/which-2.0.1.tgz#f1cf94d07a8e571b6ff006aeb91d0300c47ef0a4"
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/which/-/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"
+    integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
     dependencies:
       isexe "^2.0.0"
   

@@ -3,6 +3,6 @@ import serverless from 'serverless-http';
 import app from './app';
 
 const serverlessApp = serverless(app);
-export const handler: APIGatewayProxyHandler = async (event, context) => {
+export const intro: APIGatewayProxyHandler = async (event, context) => {
   return await serverlessApp(event, context);
 };
