@@ -65,7 +65,11 @@ export const setTokenCookie = (
   ctx.cookies.set('access_token', tokens.accessToken, {
     httpOnly: true,
     maxAge: 2000 * 60 * 60, // 2H
+<<<<<<< HEAD:src/lib/token.ts
     domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.epiclo.io'
+=======
+    domain: process.env.NODE_ENV === 'development' ? undefined : '.epiclo.io'
+>>>>>>> cc8c9a8a42f59209febe00759c4220a42b417b86:src/utilities/token.ts
   });
 
   ctx.cookies.set('refresh_token', tokens.refreshToken, {
@@ -94,12 +98,26 @@ export const tokenCheckMiddleware: Middleware = async (ctx: Context, next) => {
   const accessToken: string | undefined = ctx.cookies.get('access_token');
   const refreshToken: string | undefined = ctx.cookies.get('refresh_token');
 
+<<<<<<< HEAD:src/lib/token.ts
   try {
     if (!accessToken) {
       console.log('No Access Token');
       throw new Error('NoAccessToken');
     }
     const accessTokenData = await verifyToken<ACCESSTOKENTYPE>(accessToken);
+=======
+  const { epicauth } = ctx.request.headers;
+  if (!accessToken && epicauth) {
+    accessToken = epicauth;
+  }
+
+  try {
+    if (!accessToken) {
+      console.log('NoAccessToken, no auth');
+      throw new Error('NoAccessToken');
+    }
+    const accessTokenData = await decodeToken<ACCESSTOKENTYPE>(accessToken);
+>>>>>>> cc8c9a8a42f59209febe00759c4220a42b417b86:src/utilities/token.ts
     ctx.state.user_id = accessTokenData.user_id;
 
     // refresh token when life < 30mins
