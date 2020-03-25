@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Context, Middleware } from 'koa';
 import { getRepository } from 'typeorm';
-import { User } from '../entities/User';
+import { User } from '../entity/User';
 
 type ACCESSTOKENTYPE = {
   iat: number; // issued at
@@ -28,7 +28,7 @@ if (!SECRET_KEY) {
   if (process.env.npm_lifecycle_event !== 'typeorm') throw error;
 }
 
-export const createToken = (paylaod: any, option: SignOptions): Promise<string> => {
+export const generateToken = (paylaod: any, option: SignOptions): Promise<string> => {
   const jwtOptions: SignOptions = {
     issuer: '.epiclo.io',
     expiresIn: '7d',
@@ -41,14 +41,14 @@ export const createToken = (paylaod: any, option: SignOptions): Promise<string> 
 
   return new Promise((resolve, reject) => {
     if (!SECRET_KEY) return;
-    jwt.sign(paylaod, SECRET_KEY, jwtOptions, (err, token) => {
+    jwt.sign(paylaod, SECRET_KEY, jwtOptions, (err, encoded) => {
       if (err) reject(err);
-      resolve(token);
+      resolve(encoded);
     });
   });
 };
 
-export const decodeToken = <T = any>(token: string): Promise<T> => {
+export const verifyToken = <T = any>(token: string): Promise<T> => {
   return new Promise((resolve, reject) => {
     if (!SECRET_KEY) return;
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
@@ -64,8 +64,8 @@ export const setTokenCookie = (
 ) => {
   ctx.cookies.set('access_token', tokens.accessToken, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60, // 1H
-    domain: process.env.NODE_ENV === 'development' ? undefined : '.epiclo.io'
+    maxAge: 2000 * 60 * 60, // 2H
+    domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.epiclo.io'
   });
 
   ctx.cookies.set('refresh_token', tokens.refreshToken, {
@@ -77,9 +77,8 @@ export const setTokenCookie = (
 
 export const refresh = async (ctx: Context, refreshToken: any) => {
   try {
-    const decoded = await decodeToken<REFRESHTOKENTYPE>(refreshToken);
+    const decoded = await verifyToken<REFRESHTOKENTYPE>(refreshToken);
     const user = await getRepository(User).findOne(decoded.user_id);
-
     if (!user) {
       const error = new Error('InvalidUserError');
       throw error;
@@ -91,28 +90,24 @@ export const refresh = async (ctx: Context, refreshToken: any) => {
   }
 };
 
-export const consumeUser: Middleware = async (ctx: Context, next) => {
-  let accessToken: string | undefined = ctx.cookies.get('access_token');
+export const tokenCheckMiddleware: Middleware = async (ctx: Context, next) => {
+  const accessToken: string | undefined = ctx.cookies.get('access_token');
   const refreshToken: string | undefined = ctx.cookies.get('refresh_token');
-
-  const { epicAuth } = ctx.request.headers;
-  if (!accessToken && epicAuth) {
-    accessToken = epicAuth.split(' ')[1];
-  }
 
   try {
     if (!accessToken) {
+      console.log('No Access Token');
       throw new Error('NoAccessToken');
     }
-
-    const accessTokenData = await decodeToken<ACCESSTOKENTYPE>(accessToken);
+    const accessTokenData = await verifyToken<ACCESSTOKENTYPE>(accessToken);
     ctx.state.user_id = accessTokenData.user_id;
+
     // refresh token when life < 30mins
     const diff = accessTokenData.exp * 1000 - new Date().getTime();
+
     if (diff < 1000 * 60 * 30 && refreshToken) {
       await refresh(ctx, refreshToken);
     }
-    throw new Error('NoAccessToken');
   } catch (e) {
     // invalid token! try token refresh...
     if (!refreshToken) return next();

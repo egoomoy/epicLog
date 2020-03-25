@@ -1,16 +1,18 @@
 import { gql, IResolvers } from 'apollo-server-koa';
 import { getRepository } from 'typeorm';
-import { User } from '../entities/User';
 import { ApolloContext } from '../app';
+import { User } from '../entity/User';
+import { setTokenCookie } from '../lib/token';
 
 export const typeDefs = gql`
   extend type Query {
-    user(username: String!): String
+    me: String
   }
   extend type Mutation {
-    emailSignUpUser(email: String!, password: String!): emailSignUpUserResponse!
+    signUp(email: String!, password: String!): mutationResponse!
+    signIn(email: String!, password: String!): mutationResponse!
   }
-  type emailSignUpUserResponse {
+  type mutationResponse {
     ok: Boolean!
     error: String
   }
@@ -18,23 +20,16 @@ export const typeDefs = gql`
 
 export const resolvers: IResolvers<any, ApolloContext> = {
   Query: {
-    user: async (_parent: any, args: any, _context: any, _info: any) => {
-      const { username } = args;
-      const repo = getRepository(User);
+    me: async (_parent: any, _args: any, _context: ApolloContext, _info: any) => {
       try {
-        const user = await repo.findOne({
-          where: {
-            username
-          }
-        });
-        if (user) return user.id;
+        return 'test user';
       } catch (e) {
         console.log(e);
       }
     }
   },
   Mutation: {
-    emailSignUpUser: async (_parent: any, args: any, _context: any, _info: any) => {
+    signUp: async (_parent: any, args: any, _context: any, _info: any) => {
       const { email, password } = args;
       const userRepo = getRepository(User);
       try {
@@ -42,13 +37,48 @@ export const resolvers: IResolvers<any, ApolloContext> = {
         if (existUser) {
           return {
             ok: false,
-            error: 'instead log in'
+            error: '로그인하세요.'
           };
-        } else {
-          await User.create({ email, password }).save();
+        }
+        try {
+          await userRepo.create({ email, password }).save();
           return {
             ok: true,
             error: null
+          };
+        } catch (error) {
+          return {
+            ok: false,
+            error: error.message
+          };
+        }
+      } catch (error) {
+        return {
+          ok: false,
+          error: error.message
+        };
+      }
+    },
+    signIn: async (_parent: any, _args: any, _context: any, _info: any) => {
+      const { email, password } = _args;
+      const ctx = _context.ctx;
+      console.log(ctx);
+
+      const userRepo = getRepository(User);
+      try {
+        const user = await userRepo.findOne({ email });
+        if (user) {
+          if (await user.comparePassword(password)) {
+            const token = await user.createUserToken();
+            setTokenCookie(ctx, token);
+            return {
+              ok: true,
+              error: null
+            };
+          }
+          return {
+            ok: false,
+            error: '비밀번호가 일치하지 않습니다.'
           };
         }
       } catch (error) {

@@ -1,5 +1,4 @@
 import { gql, makeExecutableSchema } from 'apollo-server-koa';
-import * as emailAuth from './EmailAuth';
 import * as user from './User';
 
 const typeDef = gql`
@@ -13,14 +12,18 @@ const typeDef = gql`
 
 const resolvers = {
   Query: {
-    _version: () => '1.0'
+    _version: () => 'TESTING 0.44 alpha'
   },
-  Mutation: {}
+  Mutation: {
+    _test: () => {
+      console.log('on');
+    }
+  }
 };
 
-const shcema = makeExecutableSchema({
-  typeDefs: [typeDef, user.typeDefs, emailAuth.typeDefs],
-  resolvers: [resolvers, user.resolvers, emailAuth.resolvers]
+const schema = makeExecutableSchema({
+  typeDefs: [typeDef, user.typeDefs],
+  resolvers: [resolvers, user.resolvers]
 });
 
-export default shcema;
+export default schema;

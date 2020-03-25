@@ -1,33 +1,36 @@
+import cors from '@koa/cors';
 import { ApolloServer } from 'apollo-server-koa';
 import Koa, { Context } from 'koa';
 import bodyparser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import { createConnection } from 'typeorm';
-import allDataloader, { Loaders } from './entities/allDataloader';
 import schema from './graphql/schema';
-import routes from './routes';
-import { consumeUser } from './utilities/token';
+import { tokenCheckMiddleware } from './lib/token';
 
 const app = new Koa();
+
 app.use(bodyparser());
-app.use(consumeUser);
-app.use(routes.routes()).use(routes.allowedMethods());
 if (process.env.NODE_ENV === 'development') {
   app.use(logger());
 }
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+  })
+);
+app.use(tokenCheckMiddleware);
 
 export type ApolloContext = {
-  user_id: string;
-  ip: string;
-  loaders: Loaders;
+  id: string;
+  ctx: Context;
 };
 
 const context = async ({ ctx }: { ctx: Context }) => {
   try {
     return {
-      user_id: ctx.state.user_id,
-      ip: ctx.request.ip,
-      loaders: allDataloader()
+      ctx,
+      id: 'user01'
     };
   } catch (e) {
     return {};
@@ -38,7 +41,7 @@ const apolloServer = new ApolloServer({
   schema,
   context
 });
-apolloServer.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app, cors: false });
 console.log(`🚀 apolloServer ready at ${apolloServer.graphqlPath}`);
 
 /**

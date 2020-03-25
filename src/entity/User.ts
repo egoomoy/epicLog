@@ -9,12 +9,10 @@ import {
   Entity,
   getRepository,
   Index,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { createToken } from '../utilities/token';
-import { Profile } from './Profile';
+import { generateToken } from '../lib/token';
 
 const BCRYPT_ROUNDS = 10;
 
@@ -34,17 +32,11 @@ export class User extends BaseEntity {
 
   @Column('timestamptz')
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 
   @Column('timestamptz')
   @UpdateDateColumn()
-  updated_at!: Date;
-
-  @OneToOne(
-    _type => Profile,
-    profile => profile.user
-  )
-  profile!: Profile;
+  updatedAt!: Date;
 
   public comparePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
@@ -65,13 +57,13 @@ export class User extends BaseEntity {
 
   async createUserToken() {
     // refresh token is valid for 30days
-    const refreshToken = await createToken(
+    const refreshToken = await generateToken(
       { user_id: this.id },
       { subject: 'refresh_token', expiresIn: '30d' }
     );
-    const accessToken = await createToken(
+    const accessToken = await generateToken(
       { user_id: this.id },
-      { subject: 'access_token', expiresIn: '5s' }
+      { subject: 'access_token', expiresIn: '2h' }
     );
     return { refreshToken, accessToken };
   }
@@ -83,14 +75,14 @@ export class User extends BaseEntity {
     // renew refresh token if remaining life is less than 15d
     if (diff < 1000 * 60 * 60 * 24 * 15) {
       console.log('refreshing refreshToken');
-      refreshToken = await createToken(
+      refreshToken = await generateToken(
         { user_id: this.id, token_id: tokenId },
         { subject: 'refresh_token', expiresIn: '30d' }
       );
     }
-    const accessToken = await createToken(
+    const accessToken = await generateToken(
       { user_id: this.id },
-      { subject: 'access_token', expiresIn: '5s' }
+      { subject: 'access_token', expiresIn: '2h' }
     );
     return { refreshToken, accessToken };
   }
